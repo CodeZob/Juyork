@@ -163,7 +163,19 @@ public class ServerLogWindow extends JInternalFrame {
 		}
 	}
 	
+	/**
+	 * 시스템 로그파일을 만듬
+	 */
 	public void savelog(){
+		
+		savelog("[" + Manager.time + "] 0.시스템");
+	}
+	
+	/**
+	 * 로그 파이을 만듬
+	 * @param strLog 로그 문자열
+	 */
+	public void savelog(String strLog){
 		
 		try {
 			
@@ -181,7 +193,7 @@ public class ServerLogWindow extends JInternalFrame {
 				if (!f.exists()) {
 					f.mkdir();
 				}
-				Manager.flush(textPane, "[" + Manager.time + "] 0.시스템", Manager.date);
+				Manager.flush(textPane, strLog, Manager.date);
 				sTemp = null;
 				Manager.date = null;
 				Manager.time = null;

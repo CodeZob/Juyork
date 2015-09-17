@@ -895,10 +895,7 @@ public class Manager {
 	 */
 	private static String getLogTime(){
 		
-		Calendar currentDate = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm:ss");
-		String time = dateFormat.format(currentDate.getTime());
-		return time;
+		return getCurrentTime("MM.dd HH:mm:ss", null);
 	}
 	
 	/**
@@ -907,7 +904,24 @@ public class Manager {
 	 */
 	public static String getDate(){
 		
-		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd hh-mm", Locale.KOREA);
+		return getCurrentTime("yyyy-MM-dd hh-mm", Locale.KOREA);
+	}
+	
+	/**
+	 * 현재 시간 얻는다.
+	 * @param format 포맷 방식
+	 * @param locale 지역
+	 * @return 설정한 포맷 형식 문자열
+	 */
+	private static String getCurrentTime(String format, Locale locale){
+		
+		SimpleDateFormat s;
+		
+		if (locale != null) {
+			s = new SimpleDateFormat(format, locale);
+		} else {
+			s = new SimpleDateFormat(format); 
+		}
 		return s.format(Calendar.getInstance().getTime());
 	}
 }
