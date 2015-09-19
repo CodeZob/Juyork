@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.io.File;
 import java.util.StringTokenizer;
 
-import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.event.InternalFrameAdapter;
@@ -25,7 +23,7 @@ import javax.swing.text.StyledDocument;
  *
  */
 @SuppressWarnings("serial")
-public class ServerLogWindow extends JInternalFrame {
+public class ServerLogWindow extends Window {
 	
 	private JTextPane textPane = null;
 	private JScrollPane scrollPane = null;
@@ -42,75 +40,25 @@ public class ServerLogWindow extends JInternalFrame {
 	 */
 	public ServerLogWindow(String windowName, int x, int y, int width, int height, boolean resizable, boolean closable){
 		
-		super();
+		super(windowName, x, y, width, height, resizable, closable);
 		
-		initialize(windowName, x, y, width, height, resizable, closable);
+		initialize();
 	}
 	
 	/**
 	 * 로그윈도우 초기화
-	 * @param windowName 윈도우 이름
-	 * @param x x좌표
-	 * @param y y좌표
-	 * @param width 가로크기
-	 * @param height 세로크기
-	 * @param resizable 리사이즈 가능 여부
-	 * @param closable 닫기 가능 여부
 	 */
-	public void initialize(String windowName, int x, int y, int width, int height, boolean resizable, boolean closable){
-		
-		this.title = windowName;
-		this.closable = closable;
-		this.isMaximum = false;
-		this.maximizable = true;
-		this.resizable = resizable;
-		this.iconable = true;
-		this.isIcon = false;
-		
-		setSize(width, height);
-		setBounds(x, y, width, height);
-		setVisible(true);
-		
-		this.frameIcon = new ImageIcon("");
-		setRootPaneCheckingEnabled(true);
-		
+	@Override
+	public void initialize(){
+						
 		/** 액션 **/
 		addInternalFrameListener(new InternalFrameAdapter() {
 			
 			public void internalFrameClosing(InternalFrameEvent e){
 				
-				try {
-					
-					File f = null;
-					String sTemp = "";
-					
-					synchronized (Manager.lock) {
-						sTemp = Manager.getDate();
-						StringTokenizer s = new StringTokenizer(sTemp, " ");
-						Manager.date = s.nextToken();
-						Manager.time = s.nextToken();
-						
-						f = new File("ServerLog/" + Manager.date);
-						if (!f.exists()) {
-							f.mkdir();
-						}
-						Manager.flush(textPane, "[" + Manager.time + "] " + title + " Window", Manager.date);
-						sTemp = null;
-						Manager.date = null;
-						Manager.time = null;
-						s = null;
-						f = null;
-					}
-					
-					textPane.setText("");
-					
-				} catch (Exception ex) {
-					// TODO: handle exception
-				}
+				savelog("[" + Manager.time + "] " + title + " Window");
 			}
 		}); /** 액션 끝 **/
-		
-		updateUI();
 		
 		textPane = new JTextPane();
 		scrollPane = new JScrollPane(textPane);
