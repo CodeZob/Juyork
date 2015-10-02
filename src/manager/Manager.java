@@ -60,6 +60,7 @@ public class Manager {
 		// 보여질 윈도우 스타일
 		private static final String Black = "com.jtattoo.plaf.noire.NoireLookAndFeel";	// 검정 스타일
 		private static final String Mac = "com.jtattoo.plaf.mcwin.McWinLookAndFeel"; // 맥 스타일
+		private static final String Aero = "com.jtattoo.plaf.aero.AeroLookAndFeel"; // 에어로 스타일
 	}
 	
 	// 서버로그
@@ -119,7 +120,7 @@ public class Manager {
 	 */
 	private void initialize(){
 		
-		initFrame("쥬욕서버", 1920, 1080, Style.Mac);
+		initFrame("쥬욕서버", 1920, 1080, Style.Aero);
 		
 		initMenuBar();
 		
